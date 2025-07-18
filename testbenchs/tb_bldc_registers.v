@@ -11,10 +11,17 @@ module tb_bldc_registers_lookup_combo;
     reg  [2:0]  phase_state;
     wire [31:0] T;
 
-    // Clock 50 MHz
+    // Señal intermedia para conversión binario → one-hot
+    wire [7:0] vel_onehot;
+
+    // Clock 50 MHz (20 ns periodo)
     always #10 clk = ~clk;
 
-    // Instancias
+    // ================================
+    // Instancias de módulos
+    // ================================
+
+    // Módulo de registros
     bldc_registers regs (
         .clk(clk),
         .rst(rst),
@@ -29,18 +36,32 @@ module tb_bldc_registers_lookup_combo;
         .phase_state(phase_state)
     );
 
+    // Conversión binario → one-hot
+    reg [7:0] onehot_temp;
+    always @(*) begin
+        onehot_temp = 8'd0;
+        onehot_temp[vel[2:0]] = 1'b1;
+    end
+    assign vel_onehot = onehot_temp;
+
+    // Tabla de búsqueda
     lookup_table lut (
-        .vel_index(vel[2:0]),
+        .vel_onehot(vel_onehot),
         .T_value(T)
     );
 
+    // ================================
     // Variables auxiliares
+    // ================================
     integer v, d;
     reg [7:0] vel_fixed = 8'd3;
     reg       en_fixed  = 1'b1;
 
+    // ================================
+    // Procedimiento principal
+    // ================================
     initial begin
-        $dumpfile("tb_bldc_registers.vcd");
+        $dumpfile("vcd_results/tb_bldc_registers.vcd");
         $dumpvars(0, tb_bldc_registers_lookup_combo);
 
         clk = 0;
@@ -95,5 +116,4 @@ module tb_bldc_registers_lookup_combo;
 
         #100 $finish;
     end
-
-endmodule
+endmodule
