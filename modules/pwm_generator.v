@@ -10,22 +10,19 @@ module pwm_generator (
     localparam integer PWM_PERIOD = 2500;
 
     reg [11:0] counter;         // Suficiente para contar hasta 2500
-    reg [11:0] threshold;       // Umbral calculado con duty
+    wire [11:0] threshold;       // Umbral calculado con duty
+    assign threshold = (PWM_PERIOD * duty) >> 8;
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
-            counter   <= 12'd0;
-            pwm_out   <= 1'b0;
-            threshold <= 12'd0;
+            counter <= 12'd0;
+            pwm_out <= 1'b0;
         end else if (en) begin
             // Contador principal
             if (counter >= PWM_PERIOD - 1)
                 counter <= 12'd0;
             else
                 counter <= counter + 1;
-
-            // Calcular el umbral en base al duty (escalado a 0-2500)
-            threshold <= (PWM_PERIOD * duty) >> 8; // divide por 256
 
             // Comparación para activar salida PWM
             pwm_out <= (counter < threshold);
@@ -34,5 +31,4 @@ module pwm_generator (
             pwm_out <= 1'b0;
         end
     end
-
 endmodule
