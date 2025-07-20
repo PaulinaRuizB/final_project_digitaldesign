@@ -1,4 +1,4 @@
-# BLDC Motor Controller Testbench (`tb_bldc_registers_lookup_combo.v`)
+# BLDC Motor Controller Testbench (`tb_bldc_registers.v`)
 
 ## Description
 
@@ -56,6 +56,23 @@ This is a Verilog testbench designed to simulate and verify the behavior of a BL
 
 ---
 
+# PWM generator testbench (tb_pwm_generator.v)
+
+## Description:
+This testbench verifies the functionality of the pwm_generator module. It simulates a PWM signal generation at a defined base frequency and tests the output for different duty cycle values written via a control interface (write-enable and addressable register).
+
+## Features:
+- Correct generation of PWM signals at the specified frequency
+- Handling of multiple 8-bit duty cycle values
+- Write and read operations to/from duty cycle registers
+
+## Clock and Timing;
+- System Clock: 50MHz
+- PWM base frequency: 1MHz
+- Time simulation covers multiple PWM cycles for visual inspection
+
+---
+
 # Register and PWM modules connection testbench (reg_pwm_tb.v)
 
 ## Description:
@@ -82,4 +99,3 @@ pwm_generator: Generates a PWM signal based on duty cycle and enable signals.
 - data_out: Output from reading registers.
 - vel, duty, en: Internal signals exposed by the register module.
 - pwm_out: Output PWM waveform.
-

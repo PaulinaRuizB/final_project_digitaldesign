@@ -53,13 +53,33 @@ module bldc_tb;
         data_in  = {8'd100, 8'd64, 1'b1, 15'd0}; // vel=100, duty=64, en=1
         write    = 1;
         #10 write = 0;
-
         // Read OUT
         addr  = 1;
         read  = 1;
         #10 read = 0;
+        #10000;
 
-        #20000;
+        // Test 2
+        addr     = 0;
+        data_in  = {8'd100, 8'd128, 1'b1, 15'd0}; // vel=100, duty=64, en=1
+        write    = 1;
+        #10 write = 0;
+        // Read OUT
+        addr  = 1;
+        read  = 1;
+        #10 read = 0;
+        #10000;
+
+        // Test 3
+        addr     = 0;
+        data_in  = {8'd100, 8'd196, 1'b1, 15'd0}; // vel=100, duty=64, en=1
+        write    = 1;
+        #10 write = 0;
+        // Read OUT
+        addr  = 1;
+        read  = 1;
+        #10 read = 0;
+        #10000;
         $finish;
     end
 endmodule
