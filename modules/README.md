@@ -1,4 +1,4 @@
-# pwm_generator.v
+# PWM Generator Module
 
 ## Description:
 
@@ -71,7 +71,7 @@ This allows monitoring of current speed, duty, enable flag, and the motor commut
 
 --- 
 
-# lookup_table.v
+# Look Up Table
 
 ## Description
 

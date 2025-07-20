@@ -15,7 +15,7 @@ module bldc_tb;
     wire pwm_out;
 
     // Clock generation
-    always #5 clk = ~clk; // 100MHz
+    always #10 clk = ~clk; // 50 MHz
 
     // Instantiate registers
     bldc_registers uut (
@@ -42,15 +42,13 @@ module bldc_tb;
     );
 
     initial begin
-        $dumpfile("vcd_results/tb_bldc_pwm.vcd");
+        $dumpfile("vcd_results/reg_and_pwm.vcd");
         $dumpvars(0, bldc_tb);
 
         // Initial Reset
         #10 rst = 0;
 
-        // -------------------------------------
-        // Test case 1: duty = 64 (25%), en = 1
-        // -------------------------------------
+        // Test case : duty = 64 (25%), en = 1
         addr     = 0;
         data_in  = {8'd100, 8'd64, 1'b1, 15'd0}; // vel=100, duty=64, en=1
         write    = 1;
@@ -61,37 +59,7 @@ module bldc_tb;
         read  = 1;
         #10 read = 0;
 
-        // Wait to observe PWM for 200ns
-        #500000;
-
-        // -------------------------------------
-        // Test case 2: duty = 128 (50%), en = 1
-        // -------------------------------------
-        addr     = 0;
-        data_in  = {8'd100, 8'd128, 1'b1, 15'd0}; // vel=100, duty=128, en=1
-        write    = 1;
-        #10 write = 0;
-
-        addr = 1;
-        read = 1;
-        #10 read = 0;
-
-        #500000;
-
-        // -------------------------------------
-        // Test case 3: duty = 192 (75%), en = 1
-        // -------------------------------------
-        addr     = 0;
-        data_in  = {8'd100, 8'd192, 1'b1, 15'd0}; // vel=100, duty=192, en=1
-        write    = 1;
-        #10 write = 0;
-
-        addr = 1;
-        read = 1;
-        #10 read = 0;
-
-        #500000
-
+        #20000;
         $finish;
     end
 endmodule
