@@ -24,8 +24,7 @@ module tb_pwm_generator;
 
     // Secuencia de prueba
     initial begin
-        // Dump de señales si usas GTKWave
-        $dumpfile("pwm_generator_tb.vcd");
+        $dumpfile("vcd_results/pwm_generator_tb.vcd");
         $dumpvars(0, tb_pwm_generator);
 
         // Inicialización
@@ -39,20 +38,15 @@ module tb_pwm_generator;
 
         // Prueba con 25% duty
         duty = 8'd64;
-        #500000;     // 100 us
+        #10000;
 
         // Prueba con 50% duty
         duty = 8'd128;
-        #500000;     // 100 us
+        #10000;
 
         // Prueba con 75% duty
         duty = 8'd192;
-        #500000;     // 100 us
-
-        // Apagar PWM
-        en = 0;
-        #50000;      // 50 us
-
+        #10000;
         $finish;
     end
 

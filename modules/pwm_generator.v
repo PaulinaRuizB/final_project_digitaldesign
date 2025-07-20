@@ -6,11 +6,11 @@ module pwm_generator (
     output reg         pwm_out
 );
 
-    // Frecuencia fija
-    localparam integer PWM_PERIOD = 500;
+    // Frecuencia fija - PWM funciona a 1MHz
+    localparam integer PWM_PERIOD = 50;
 
-    reg [10:0] counter;
-    wire [10:0] threshold;       // Umbral calculado con duty
+    reg [6:0] counter;
+    wire [6:0] threshold;       // Umbral calculado con duty
     assign threshold = (PWM_PERIOD * duty) >> 8;
 
     always @(posedge clk or posedge rst) begin
