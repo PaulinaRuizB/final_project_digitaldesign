@@ -116,3 +116,48 @@ pwm_generator: Generates a PWM signal based on duty cycle and enable signals.
 
 
 In the first signal shown, it can be seen that the PWM has a duty cicle of 64, then next one in 128 and the last one in 196. proving that the PWM indeed changes its duty cycle according to the value given by the OUT register.
+
+# Variable frequency wave generator
+
+## Description:
+This testbench intends to assess tha capacity of the variable frequency wave generator for its capacity of generating a three phased rounded sine wave.
+
+## Components under test:
+* Variable Frequency Generator module:
+
+## Functionality tested:
+
+* **Test 1: Zero-Value Input (T_VALUE = 0)**
+Justification: This is a critical edge case test. When T_VALUE is 0, the main_counter (which starts at 0) will immediately match the target value on the first clock cycle after reset. This should cause the state_counter to increment on every single clock cycle. This test verifies that the module can handle this high-frequency state progression without issues.
+
+* **Test 2: Typical Operation (T_VALUE = 10)**
+Justification: This test verifies the module's core functionality under a normal, non-trivial condition. It confirms that the main_counter correctly counts up to the specified value (10) and that the state_counter increments only after the correct number of clock cycles have passed (11 cycles: 0 through 10). Running it for many repetitions, as you've done, thoroughly checks the wrap-around logic of the state_counter.
+
+* **Test 3: Mid-Operation Reset**
+Justification: This is a crucial asynchronous event test. It ensures that the rst_n signal works as intended, forcing the internal counters back to a known state (zero) regardless of their current values. This validates the design's reset logic, which is fundamental for system reliability.
+
+* **Test 4: High-Frequency Operation (T_VALUE = 1)**
+Justification: This is another valuable edge case test that pushes the limits of the design. With T_48_VALUE set to 1, the state_counter should increment every 2 clock cycles. This is the fastest rate of change besides the zero-value case and is excellent for stress-testing the logic that updates the state_counter and the output_val.
+
+* **Test 5: Dynamic Input Change**
+Justification: The purpose of this test is to verify how the circuit behaves when its configuration (T_48_VALUE) is altered during operation. This is an important system-level test, as inputs in a real system are not always static. While the expected outcome in your testbench was incorrect for the presumed hardware, the test itself is very important for characterizing the module's actual behavior in this scenario.
+
+
+Observed outputs:
+
+* **Test 1:** When T_value is 0, it is possible to evidence that the main counter increments each clock cycle:
+<img width="1449" height="199" alt="image" src="https://github.com/user-attachments/assets/7f638c02-84bd-4aa4-aeb9-3946fdc6f1a0" />
+
+* **Test 2:** With a higher `T_value` value, each main_counter increment takes 10 clock cycles, and after 480 clock cycles it is possible to evidence a full cycle of the three phase sine wave:
+<img width="1565" height="244" alt="image" src="https://github.com/user-attachments/assets/2808dd08-a6c4-4852-b898-98e4707cbf68" />
+
+* **Test 3:** During the reset, it is possible to evidence how the internal counter is reset back to 0 and when reset is ignored:
+
+<img width="1552" height="298" alt="image" src="https://github.com/user-attachments/assets/5e1d60d1-96cd-48e6-ac89-bfe13ab1e0b6" />
+
+* **Test 4:** Like Test 1, the device operates as expected. Incrementing `state_counter` every 2 clock cycles.
+<img width="1578" height="245" alt="image" src="https://github.com/user-attachments/assets/15fd4ff8-e08b-4adb-b0b3-5f089c13c7bb" />
+
+
+* **Test 5:** When the counter exceeds `T_value`, it's set back to 0, this behaviour avoids keep counting until higher values, breaking the expected signal and allowing to perform dynamic configuration.
+<img width="1600" height="155" alt="image" src="https://github.com/user-attachments/assets/60b7f9f7-6a52-47ca-ac8b-98368eca7b76" />
