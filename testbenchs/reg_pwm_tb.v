@@ -50,7 +50,7 @@ module bldc_tb;
 
         // Test case : duty = 64 (25%), en = 1
         addr     = 0;
-        data_in  = {8'd100, 8'd64, 1'b1, 15'd0}; // vel=100, duty=64, en=1
+        data_in  = {8'd100, 8'd64, 1'b1, 15'd0};
         write    = 1;
         #10 write = 0;
         // Read OUT
@@ -61,7 +61,7 @@ module bldc_tb;
 
         // Test 2
         addr     = 0;
-        data_in  = {8'd100, 8'd128, 1'b1, 15'd0}; // vel=100, duty=64, en=1
+        data_in  = {8'd100, 8'd128, 1'b1, 15'd0};
         write    = 1;
         #10 write = 0;
         // Read OUT
@@ -72,7 +72,7 @@ module bldc_tb;
 
         // Test 3
         addr     = 0;
-        data_in  = {8'd100, 8'd196, 1'b1, 15'd0}; // vel=100, duty=64, en=1
+        data_in  = {8'd100, 8'd196, 1'b1, 15'd0};
         write    = 1;
         #10 write = 0;
         // Read OUT
