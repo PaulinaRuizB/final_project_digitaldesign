@@ -1,24 +1,5 @@
-# PWM Generator Module
-
-## Description:
-
-This module generates a PWM (Pulse Width Modulated) signal based on an 8-bit duty cycle input. The output frequency is fixed (e.g., 20 kHz for a 50 MHz clock). The duty cycle controls how long the output stays high in each PWM period.
-
-## Inputs:
-clk   : System clock.
-rst   : Synchronous reset.
-- en    : Enable signal for the PWM output.
- duty  : 8-bit duty cycle (0-255).
-
-## Output:
-pwm_out : PWM output signal.
-
-## Functionality:
-The module scales the 8-bit duty input to match a fixed PWM period. The output pwm_out is high when the internal counter is less than the computed threshold (duty scaled to period). If enable is low, pwm_out is forced low.
-
----
-
 # BLDC Registers Module
+<img width="1025" height="695" alt="image" src="https://github.com/user-attachments/assets/07c9688b-a4ed-4902-9b07-e3f4fd3e713c" />
 
 ## Description
 
@@ -72,6 +53,7 @@ This allows monitoring of current speed, duty, enable flag, and the motor commut
 --- 
 
 # Look Up Table
+![WhatsApp Image 2025-07-21 at 17 33 36_d5c29d36](https://github.com/user-attachments/assets/796345ea-e1c2-4629-8db7-1ab6ac5f8bea)
 
 ## Description
 
@@ -108,8 +90,32 @@ Each one-hot encoded input corresponds to a predefined frequency, which translat
 
 If no bit is set or multiple bits are high, the output `T_value` is set to `0` as a fail-safe.
 
+---
+
+# PWM Generator Module
+<img width="903" height="681" alt="image" src="https://github.com/user-attachments/assets/857d686e-0ad4-4156-8ade-e1c84c5383d7" />
+
+## Description:
+
+This module generates a PWM (Pulse Width Modulated) signal based on an 8-bit duty cycle input. The output frequency is fixed (e.g., 20 kHz for a 50 MHz clock). The duty cycle controls how long the output stays high in each PWM period.
+
+## Inputs:
+clk   : System clock.
+rst   : Synchronous reset.
+- en    : Enable signal for the PWM output.
+ duty  : 8-bit duty cycle (0-255).
+
+## Output:
+pwm_out : PWM output signal.
+
+## Functionality:
+The module scales the 8-bit duty input to match a fixed PWM period. The output pwm_out is high when the internal counter is less than the computed threshold (duty scaled to period). If enable is low, pwm_out is forced low.
+
+---
 
 # Variable Frequency wave generator
+![WhatsApp Image 2025-07-21 at 17 36 07_33219aa8](https://github.com/user-attachments/assets/5a8d4c20-6276-4141-9490-17f3c58a06fd)
+
 Works a s a three phase variable sine wave generator, uses a precomputed sine wave rounded to 0 and 1 depending if it's positive or negative. Performs a full cycle in 48 steps of `T_value+1` clock cycles.
 
 | Name         | Width | Description                                                |
