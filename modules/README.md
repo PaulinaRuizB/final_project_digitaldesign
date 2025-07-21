@@ -108,3 +108,32 @@ Each one-hot encoded input corresponds to a predefined frequency, which translat
 
 If no bit is set or multiple bits are high, the output `T_value` is set to `0` as a fail-safe.
 
+
+# Variable Frequency wave generator
+Works a s a three phase variable sine wave generator, uses a precomputed sine wave rounded to 0 and 1 depending if it's positive or negative. Performs a full cycle in 48 steps of `T_value+1` clock cycles.
+
+| Name         | Width | Description                                                |
+|--------------|-------|------------------------------------------------------------|
+| `clk`        | 1 bit   | System clock                                     |
+| `rst`        | 1 bit   | Active-high synchronous reset                    |
+| `T_value` | 32 bits| Timer period in clock cycles. This value determines the switching period of the motor phases according to the selected speed. |
+
+## Outputs
+
+| Name      | Width  | Description                                                       |
+|-----------|--------|-------------------------------------------------------------------|
+| `output_val` | 3 bits| Value of the three phased output, each bit corresponds to a phase. |
+* **Test 1: Zero-Value Input (T_48_VALUE = 0)**
+Justification: This is a critical edge case test. When T_48_VALUE is 0, the main_counter (which starts at 0) will immediately match the target value on the first clock cycle after reset. This should cause the state_counter to increment on every single clock cycle. This test verifies that the module can handle this high-frequency state progression without issues.
+
+* **Test 2: Typical Operation (T_48_VALUE = 10)**
+Justification: This test verifies the module's core functionality under a normal, non-trivial condition. It confirms that the main_counter correctly counts up to the specified value (10) and that the state_counter increments only after the correct number of clock cycles have passed (11 cycles: 0 through 10). Running it for many repetitions, as you've done, thoroughly checks the wrap-around logic of the state_counter.
+
+* **Test 3: Mid-Operation Reset**
+Justification: This is a crucial asynchronous event test. It ensures that the rst_n signal works as intended, forcing the internal counters back to a known state (zero) regardless of their current values. This validates the design's reset logic, which is fundamental for system reliability.
+
+* **Test 4: High-Frequency Operation (T_48_VALUE = 1)**
+Justification: This is another valuable edge case test that pushes the limits of the design. With T_48_VALUE set to 1, the state_counter should increment every 2 clock cycles. This is the fastest rate of change besides the zero-value case and is excellent for stress-testing the logic that updates the state_counter and the output_val.
+
+* **Test 5: Dynamic Input Change**
+Justification: The purpose of this test is to verify how the circuit behaves when its configuration (T_48_VALUE) is altered during operation. This is an important system-level test, as inputs in a real system are not always static. While the expected outcome in your testbench was incorrect for the presumed hardware, the test itself is very important for characterizing the module's actual behavior in this scenario.

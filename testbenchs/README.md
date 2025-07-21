@@ -54,6 +54,12 @@ This is a Verilog testbench designed to simulate and verify the behavior of a BL
 | `T`           | 32 bit | Period retrieved from the lookup table           |
 | `phase_state` | 3 bit  | Placeholder for FSM phase state simulation       |
 
+## Simulation in GTKwave: 
+
+<img width="1013" height="260" alt="image" src="https://github.com/user-attachments/assets/146e45ad-d4f0-4f64-82e8-927269ee9e80" />
+
+The orange signals represent the control variables, such as addr (responsible of enable the config or out registers), clk (system clock), write (variable for the config register) and read (variable for the read register). The red ones show the output of both registers: data_in for the config register and data_out for the out register. Vel and duty are the outputs of the Out register that later are going to be use for the lookup table and the PWM signal. Finally, the yellow signals are the values taken for the lookup table, where a certain value of velocity is related to a period (T_value).
+
 ---
 
 # PWM generator testbench (tb_pwm_generator.v)
@@ -70,6 +76,10 @@ This testbench verifies the functionality of the pwm_generator module. It simula
 - System Clock: 50MHz
 - PWM base frequency: 1MHz
 - Time simulation covers multiple PWM cycles for visual inspection
+
+## Simulation in GTKwave 
+
+<img width="909" height="386" alt="image" src="https://github.com/user-attachments/assets/44b0acb9-96fb-4105-82b3-81c0cc8430b1" />
 
 ---
 
@@ -99,3 +109,10 @@ pwm_generator: Generates a PWM signal based on duty cycle and enable signals.
 - data_out: Output from reading registers.
 - vel, duty, en: Internal signals exposed by the register module.
 - pwm_out: Output PWM waveform.
+
+## Simulation GTKwave:
+
+<img width="904" height="433" alt="image" src="https://github.com/user-attachments/assets/8c6b3c43-737e-4092-b769-c8d711b8033d" />
+
+
+In the first signal shown, it can be seen that the PWM has a duty cicle of 64, then next one in 128 and the last one in 196. proving that the PWM indeed changes its ducty cicle according to the value given by the OUT register.
