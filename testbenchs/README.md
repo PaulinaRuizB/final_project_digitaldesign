@@ -115,4 +115,4 @@ pwm_generator: Generates a PWM signal based on duty cycle and enable signals.
 <img width="904" height="433" alt="image" src="https://github.com/user-attachments/assets/8c6b3c43-737e-4092-b769-c8d711b8033d" />
 
 
-In the first signal shown, it can be seen that the PWM has a duty cicle of 64, then next one in 128 and the last one in 196. proving that the PWM indeed changes its ducty cicle according to the value given by the OUT register.
+In the first signal shown, it can be seen that the PWM has a duty cicle of 64, then next one in 128 and the last one in 196. proving that the PWM indeed changes its duty cycle according to the value given by the OUT register.
