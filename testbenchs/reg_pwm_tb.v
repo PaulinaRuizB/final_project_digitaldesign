@@ -5,7 +5,7 @@ module bldc_tb;
     reg rst = 1;
     reg write = 0;
     reg read = 0;
-    reg [0:0] addr = 0;
+    reg [31:0] addr = 32'd0;
     reg [31:0] data_in;
     reg [2:0] phase_state = 3'b000;
     wire [31:0] data_out;
@@ -49,34 +49,34 @@ module bldc_tb;
         #10 rst = 0;
 
         // Test case : duty = 64 (25%), en = 1
-        addr     = 0;
+        addr     = 32'd0;
         data_in  = {8'd100, 8'd64, 1'b1, 15'd0};
         write    = 1;
         #10 write = 0;
         // Read OUT
-        addr  = 1;
+        addr  = 32'd1;
         read  = 1;
         #10 read = 0;
         #10000;
 
         // Test 2
-        addr     = 0;
+        addr     = 32'd0;
         data_in  = {8'd100, 8'd128, 1'b1, 15'd0};
         write    = 1;
         #10 write = 0;
         // Read OUT
-        addr  = 1;
+        addr  = 32'd1;
         read  = 1;
         #10 read = 0;
         #10000;
 
         // Test 3
-        addr     = 0;
+        addr     = 32'd0;
         data_in  = {8'd100, 8'd196, 1'b1, 15'd0};
         write    = 1;
         #10 write = 0;
         // Read OUT
-        addr  = 1;
+        addr  = 32'd1;
         read  = 1;
         #10 read = 0;
         #10000;
