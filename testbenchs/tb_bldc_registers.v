@@ -3,7 +3,7 @@ module tb_bldc_registers_lookup_combo;
 
     reg         clk, rst;
     reg         write, read;
-    reg  [0:0]  addr;
+    reg  [31:0]  addr;
     reg  [31:0] data_in;
     wire [31:0] data_out;
     wire [7:0]  vel, duty;
@@ -68,7 +68,7 @@ module tb_bldc_registers_lookup_combo;
         rst = 1;
         write = 0;
         read = 0;
-        addr = 0;
+        addr = 32'd0;
         data_in = 32'd0;
         phase_state = 3'b011;
 
@@ -97,7 +97,7 @@ module tb_bldc_registers_lookup_combo;
         // FSM test: duty fijo, velocidad variable
         for (v = 0; v < 8; v = v + 1) begin
             #40;
-            addr = 0;
+            addr = 32'd0;
             data_in = 32'd0;
             data_in[31:24] = v[7:0];
             data_in[23:16] = 8'd128;
@@ -105,7 +105,7 @@ module tb_bldc_registers_lookup_combo;
             write = 1;
             #20 write = 0;
 
-            addr = 1;
+            addr = 32'd1;
             read = 1;
             #20 read = 0;
 

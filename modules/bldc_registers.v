@@ -3,7 +3,7 @@ module bldc_registers (
     input  wire        rst,
     input  wire        write,
     input  wire        read,
-    input  wire [0:0]  addr,       // 0: CONFIG, 1: OUT
+    input  wire [31:0]  addr,       // 0: CONFIG, 1: OUT
     input  wire [31:0] data_in,
     output reg  [31:0] data_out,
     output wire [7:0]  vel,
@@ -59,4 +59,4 @@ module bldc_registers (
     assign duty = duty_reg;
     assign en   = en_reg;
 
-endmodule
+endmodule
