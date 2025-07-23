@@ -185,5 +185,52 @@ All speeds are successfully generated and is a visual difference in frequency
 The following times were obtained measuring a full cycle time (1/2 and 1/6) for the lower frequencies like in the following screenshot:
 <img width="1163" height="411" alt="image" src="https://github.com/user-attachments/assets/14650836-69a5-49c4-9d59-8087af334e0e" />
 
+| **time [ns]** | **Frequency [KHz]**  |
+|-------------|-------------------|
+| 178560      | 5.60              |
+| 249600      | 4.01              |
+| 312960      | 3.20              |
+| 416640      | 2.40              |
+| 624960      | 1.60              |
+| 1249920     | 0.80              |
+| 2499840     | 0.40              |
 
-## Functionality tested:
+### General module test
+
+## Description:
+This testbench evaluates the module as a whole, asserting the behaviour of it as a whole integration. This test is not extensive as each module was previously tested and the main focus is to assert the interaction between them.
+
+## Components under test:
+* BLDC Controller module.
+
+## Test cases:
+* **Device initialization:** When reset is HIGH, all registers must be set to 0 and no operation should be performed.
+* **Write:** An initial configuration is written (Vel=1.6KHz, duty=50%, EN=1), the registers must be loaded with the corresponding value.
+* **Read:** Read will be set to 1, during that clock cycle `data_out` must load the corresponding values and the current output from the variable frequency wave generator (`0b110`)
+* **Wave generation**, the simulation is left to run over 1000 cycles, it is expected to evidence the three phase wave combined with the PWM.
+* **EN=0:** The registers are loaded with EN=0 and the simulation is left to run. The output should be disabled.
+* **Speed increase:** The speed is increased to its maximum value and the duty cycle is set to the 78%, `EN` is set back to 1. It is expected to evidence a change in the wave's shape.
+* **Read 2:** The CPU requests a read again to the address `0x01`, the peripheral's response must change in the `data_out` register.
+* **Vel not in one-hot encoding:** The peripheral receives an unvalid value. All outputs must be disabled and the counter has to stop.
+* **Read 3:** The CPU requests a read again to the address `0x01`, the peripheral's response must change in the `data_out` register.
+
+
+## Observed outputs:
+
+### General behavior
+<img width="1523" height="292" alt="image" src="https://github.com/user-attachments/assets/acdc5437-1cbe-49a7-8b3a-a8fbee4b761a" />
+In the previous image it is possible to evidence:
+* read and write cycles work as expected
+* the correct generation of the three phased waves at two different duty cycles and frequencies
+* the disabilitation of the output when `EN==0` and when te `vel` register holds an unvalid value.
+
+For the more trickier test cases that require to zoom in the results are detailed:
+
+* **Device initialization:** When reset is HIGH, all registers must be set to 0 and no operation should be performed.
+<img width="1523" height="326" alt="image" src="https://github.com/user-attachments/assets/6f6d30dc-557a-4576-a189-c0c9fca1ab29" />
+* **Duty cycles:** In the following two screenshots it is possible to evidence the diference between the two duty cycles at the same zoom level:
+<img width="1360" height="294" alt="image" src="https://github.com/user-attachments/assets/9eb7999f-dfb9-4172-a77f-a6a660c102ba" />
+<img width="1267" height="289" alt="image" src="https://github.com/user-attachments/assets/48f95444-346b-4c48-9631-4f20c3052e16" />
+* **Vel not in one-hot encoding:** It is possible to evidence how the counter variable frequency generator stops generating the output when `vel==260`
+<img width="1518" height="318" alt="image" src="https://github.com/user-attachments/assets/1df2c4b7-dfac-4871-b830-e4161f2bbf0c" />
+
