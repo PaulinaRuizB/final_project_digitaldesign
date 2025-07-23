@@ -161,3 +161,29 @@ Observed outputs:
 
 * **Test 5:** When the counter exceeds `T_value`, it's set back to 0, this behaviour avoids keep counting until higher values, breaking the expected signal and allowing to perform dynamic configuration.
 <img width="1600" height="155" alt="image" src="https://github.com/user-attachments/assets/60b7f9f7-6a52-47ca-ac8b-98368eca7b76" />
+
+# Lookup table + Variable Frequency Wave generator:
+
+## Description:
+This testbench asserts the communication between the lookup table and the variable frequency generator, it also intends to assert the time response of the combined system asserting that the configured frequencies are being generated.
+
+## Components under test:
+* Variable Frequency Generator module
+* Lookup table module
+
+## Functionality tested:
+
+All 8 possible speeds will be loaded into the lookup table, the corresponding waves should be generated.
+
+## Observed outputs
+
+### Overall performance
+All speeds are successfully generated and is a visual difference in frequency
+<img width="1452" height="263" alt="image" src="https://github.com/user-attachments/assets/6fcb6c2c-a37f-4870-a6aa-12aced918e91" />
+
+### Time response:
+The following times were obtained measuring a full cycle time (1/2 and 1/6) for the lower frequencies like in the following screenshot:
+<img width="1163" height="411" alt="image" src="https://github.com/user-attachments/assets/14650836-69a5-49c4-9d59-8087af334e0e" />
+
+
+## Functionality tested:
