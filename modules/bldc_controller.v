@@ -3,7 +3,7 @@ module bldc_controller (
     input  wire        rst,
     input  wire        write,
     input  wire        read,
-    input  wire [0:0]  addr,
+    input  wire [31:0]  addr,
     input  wire [31:0] data_in,
     output wire [31:0] data_out,
     output wire [2:0]  output_combined
